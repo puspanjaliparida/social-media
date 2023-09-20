@@ -1,5 +1,8 @@
-<h1>New Post</h1>
-<%= render 'form', post: @post %>
-<%= link_to 'Back', posts_path %>
+<!-- app/views/posts/new.html.erb -->
+<div class="h2">
+  <h1 style="color: #ffffff;;text-align:center;font-size:60px">New Post</h1>
 
-  
+  <%= render 'form' %><br>
+
+  <div class="main_btn"><%= link_to 'Back', posts_path %></div>
+</div>

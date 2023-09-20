@@ -1,4 +1,4 @@
-<%= form_with(model: @post, local: true) do |form| %>
+<%= form_with(model: @post, local: true, multipart: true) do |form| %>
   <% if @post.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@post.errors.count, 'error') %> prohibited this post from being saved:</h2>
@@ -20,9 +20,18 @@
     <%= form.text_area :description %>
   </div>
   
-  <div class="actions">
-    <%= form.submit 'create' %>
+  <div class="field">
+    <%= form.label :image %>
+    <%= form.file_field :image, accept: 'image/jpeg,image/png,image/gif' %>
   </div>
   
+  <div class="field">
+    <%= form.label :video %>
+    <%= form.file_field :video, accept: 'video/mp4,video/x-matroska,video/avi,video/quicktime' %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Create' %>
+  </div>
   
 <% end %>
