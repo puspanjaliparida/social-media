@@ -6,7 +6,7 @@ class User < ApplicationRecord
     # validates :username, presence: true
     has_many :posts
     has_many :comments
-  
+    mount_uploader :avatar, AvatarUploader
     has_many :likes
     has_many :liked_posts, -> { where(reaction: 'like') }, through: :likes, source: :post
   

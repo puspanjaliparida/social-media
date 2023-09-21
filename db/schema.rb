@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_16_144500) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_21_071740) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -72,6 +72,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_16_144500) do
     t.datetime "updated_at", null: false
     t.string "title"
     t.text "description"
+    t.string "image"
+    t.string "video"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -88,6 +90,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_16_144500) do
     t.date "date_of_birth"
     t.string "gender"
     t.datetime "remember_created_at"
+    t.string "avatar"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

@@ -1,30 +1,38 @@
 class LikesController < ApplicationController
-    before_action :authenticate_user! # Assuming you want to authenticate users
-  
-    def create
-      @post = Post.find(params[:post_id])
-      like = current_user.likes.build(post: @post)
-  
-      if like.save
-        # Handle successful like creation
-        redirect_to @post, notice: 'Post liked!'
-      else
-        # Handle like creation failure
-        redirect_to @post, alert: 'Unable to like the post.'
-      end
+  before_action :authenticate_user!
+ 
+  before_action :find_post
+  before_action :find_like, only: [:destroy] 
+
+  def create
+    @post = Post.find(params[:post_id])
+    if already_liked?
+        flash[:notice] = "you can't like more than once"
+    else
+        @post.likes.create(user_id: current_user.id)
     end
-  
-    def destroy
-      @post = Post.find(params[:post_id])
-      like = current_user.likes.find_by(post: @post)
-  
-      if like&.destroy
-        # Handle successful unlike
-        redirect_to @post, notice: 'Post unliked!'
-      else
-        # Handle unlike failure (e.g., if like doesn't exist)
-        redirect_to @post, alert: 'Unable to unlike the post.'
-      end
-    end
+    redirect_to post_path(@post)
   end
-  
+
+  def destroy
+      if !(already_liked?)
+          flash[:notice] = "can not unlike"
+      else
+          @like.destroy
+      end
+      redirect_to post_path(@post)
+  end
+
+  def find_post
+      @post = Post.find_by(id: params[:id])
+  end
+
+  def already_liked?
+      Like.where(user_id: current_user.id, post_id:params[:post_id]).exists?
+  end
+
+  def find_like
+      @like = @post.likes.find(params[:id])
+  end
+
+end
