@@ -24,7 +24,7 @@ class LikesController < ApplicationController
   end
 
   def find_post
-      @post = Post.find_by(id: params[:id])
+    @post = Post.find(params[:post_id])
   end
 
   def already_liked?

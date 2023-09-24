@@ -1,26 +1,47 @@
-<h2>Log in</h2>
+<body style="background-image: url('https://cdn.wallpapersafari.com/89/81/6pgOQy.jpg'); background-size: cover; background-repeat: no-repeat;">
+<div class="login-box">
+  <h2>Log in</h2>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
-
-  <% if devise_mapping.rememberable? %>
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
     <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+      <%= f.label :email %><br />
+      <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :password %><br />
+      <%= f.password_field :password, autocomplete: "current-password" %>
+    </div>
+
+    <% if devise_mapping.rememberable? %>
+      <div class="field">
+        <%= f.check_box :remember_me %>
+        <%= f.label :remember_me %>
+      </div>
+    <% end %>
+
+    <div class="actions">
+      <%= f.submit "Log in" %>
     </div>
   <% end %>
 
-  <div class="actions">
-    <%= f.submit "Log in" %>
-  </div>
-<% end %>
+  <%= render "devise/shared/links" %>
+</div>
+<style>
+.login-box {
+  max-width: 400px; /* Adjust the width as needed */
+  margin: 0 auto; /* Center horizontally */
+  padding: 20px; /* Add padding for spacing */
+  border: 1px solid #ddd; /* Add a border for visual separation */
+  border-radius: 10px; /* Add rounded corners for style */
+  background-color: #87CEEB; /* Background color for the box */
+}
 
-<%= render "devise/shared/links" %>
+.field {
+  margin-bottom: 10px; /* Add spacing between fields */
+}
+
+.actions {
+  text-align: center; /* Center-align the submit button */
+}
+</style>

@@ -10,7 +10,6 @@
 
 <%= link_to ' Create post', new_post_path %>
 
-
   <% @posts.each do |post| %>
     <div class="post-container">
       <div class="post">
@@ -18,16 +17,25 @@
         <% if post.user.avatar? %>
           <%= image_tag post.user.avatar.url, class: "avatar" %>
         <% else %>
-          <div class="default-avatar"><img src="https://www.pngarts.com/files/11/Avatar-PNG-Picture.png" alt="default-avatar" class="default-avatar"></div>
+          <div class="default-avatar"><img src="https://www.seekpng.com/png/small/514-5147366_default-avatar-comments-avatar.png" alt="default-avatar" class="default-avatar"></div>
         <% end %>
         <p><%= post.user.email %></p>
       </div>
+        
+      <p>
+      <% unless current_user == post.user %>
+        <% if current_user.following?(post.user) %>
+          <%= button_to 'Unfollow', friendship_path(post.user.id), method: :delete %>
+        <% else %>
+          <%= button_to 'Follow', friendships_path(post.user.id), method: :post %>
+        <% end %>
+      <% end %>
+      </p>
+
+
       <h1><%= link_to post.content, post_path(post) %></h1>
       <%= render 'post', post: post %>
-        
-
       
-        
       <% if post.liking_users.any? %>
         <h3>Liking Users:</h3>
         <ul>
@@ -42,17 +50,18 @@
 <style>
   
 
-    .post-container {
-      max-width: 600px;
-      margin: 0 auto;
-      background-color: #f9f9f9;
-      border: 1px solid #ddd;
-      border-radius: 20px;
-      padding: 20px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      flex: 4;
-      /* background-image: url('https://img.freepik.com/free-vector/social-media-icons_53876-89125.jpg?size=626&ext=jpg&ga=GA1.1.128079093.1690178578&semt=ais'); 
-      background-size: cover;  */
+      .post-container {
+        max-width: 600px;
+        margin: 0 auto;
+        background-image: url('https://cdn.wallpapersafari.com/57/11/fUxMVa.jpg'); /* Replace 'path/to/your/image.jpg' with the actual image file path */
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        flex: 4;
       }
 
         /* Style the post header */
@@ -79,5 +88,16 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         padding: 10px;
         
-      }
-	</style>
+      }    
+      body {
+      background-image: url('https://wonderfulengineering.com/wp-content/uploads/2014/09/yellow-wallpaper-19.jpg'); /* Replace 'path/to/your/background.jpg' with the actual image file path */
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed; /* This keeps the background fixed while scrolling */
+      background-position: center center;
+      /* You can also add other styles to control the background, such as background-color */
+      /* background-color: rgba(0, 0, 0, 0.5); */
+     }
+  
+
+</style>

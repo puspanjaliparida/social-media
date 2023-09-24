@@ -1,40 +1,67 @@
+<body style="background-image: url('https://wallpapercave.com/wp/1vIIYqe.jpg'); background-size: cover; background-repeat: no-repeat;">
+<div class="post-container">
+  <div class="content-box">
+    <h2><%= @post.user.username %></h2>
+    <p>Posted at: <%= @post.created_at.strftime('%B %d, %Y %I:%M %p') %></p>
 
-<h2><%= @post.user.username %></h2>
-<p>Posted at: <%= @post.created_at.strftime('%B %d, %Y %I:%M %p') %></p>
+    <% if user_signed_in? %>
+      <%= form_with(model: [@post, Comment.new], url: post_comments_path(@post), local: true) do |form| %>
+        <%= form.text_area :content, placeholder: 'Add a comment...', rows: 2 %>
+        <%= form.submit 'Comment' %>
+      <% end %>
+    <% else %>
+      <p>Please sign in to comment.</p>
+    <% end %>
 
-<% if user_signed_in? %>
-  <%= form_with(model: [@post, Comment.new], url: post_comments_path(@post), local: true) do |form| %>
-    <%= form.text_area :content, placeholder: 'Add a comment...', rows: 2 %>
-    <%= form.submit 'Comment' %>
-  <% end %>
-<% else %>
-  <p>Please sign in to comment.</p>
-<% end %>
+    <br>
 
-<br>
+    <% if @post.user == current_user %>
+      <%= form_for(@post, :html => { :method => :delete, :remote => true, data: { confirm: "Are you sure?"} }) do |f| %>
+        <%= f.submit 'Delete post' %>
+      <% end %>
+    <% end %>
 
+    <br>
 
-<% if @post.user == current_user %>
-  <%= form_for(@post, :html => { :method => :delete, :remote => true, data: { confirm: "Are you sure?"} }) do |f| %>
-    <%= f.submit 'Delete post' %>
-  <% end %>
-<% end %>
+    <p><%= @post.likes.count %> <%= (@post.likes.count) == 1 ? 'Like' : 'Likes' %></p>
 
-<br>
+    <% pre_like = @post.likes.find { |like| like.user_id == current_user.id } %>
+    <% if pre_like %>
+      <%= button_to 'Unlike', post_like_path(@post, pre_like), method: :delete %>
+    <% else %>
+      <%= button_to 'Like', post_likes_path(@post), method: :post %>
+    <% end %>
+    
+    
+    <br>
 
+    <%= link_to 'Edit', edit_post_path(@post) %>
+    <br>
+    <%= link_to 'Back', posts_path %>
+  </div>
+</div>
+<style>
+.post-container {
+  max-width: 600px; /* Adjust the width as needed */
+  margin: 0 auto; /* Center horizontally */
+}
 
-<p><%= @post.likes.count %> <%= (@post.likes.count) == 1 ? 'Like' : 'Likes' %></p>
+.content-box {
+  padding: 20px; /* Add padding for spacing */
+  border: 1px solid #ddd; /* Add a border for visual separation */
+  border-radius: 10px; /* Add rounded corners for style */
+  background-color: #87CEEB; /* Background color for the box */
+}
 
-<% pre_like = @post.likes.find { |like| like.user_id == current_user.id } %>
-<% if pre_like %>
-  <%= button_to 'Unlike', post_like_path(@post, pre_like), method: :delete %>
-<% else %>
-  <%= button_to 'Like', post_likes_path(@post), method: :post %>
-<% end %>
+.content-box h2 {
+  font-size: 24px; /* Adjust the font size as needed */
+  margin-bottom: 10px; /* Add spacing between the heading and other content */
+}
 
-<br>
+.content-box p {
+  font-size: 16px; /* Adjust the font size as needed */
+  margin-bottom: 10px; /* Add spacing between paragraphs */
+}
 
-
-<%= link_to 'Edit', edit_post_path(@post) %>
-<br>
-<%= link_to 'Back', posts_path %>
+/* Add more styles as needed for form elements, buttons, etc. */
+</style>

@@ -10,7 +10,8 @@ Rails.application.routes.draw do
   end
 
   resources :friendships, only: [:create, :destroy]
-  get '/friendships', to: 'friendships#index'
 
-  root to:'posts#index'
+  post "/friendships/:friend_id", to: "friendships#create", as: "create_friendship"
+  root to: 'posts#index'
+  
 end

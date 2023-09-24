@@ -26,20 +26,21 @@ class PostsController < ApplicationController
   end
 
   def edit
-    @post = current_user.posts.find_by_id(params[:id])
-
+    @post = Post.find(params[:id])
+  
     if @post.nil?
       flash[:error] = "Post not found"
       redirect_to root_path
     end
   end
+  
 
   def update
     @post = current_user.posts.find(params[:id])
     if @post.update(post_params)
       redirect_to @post, notice: 'Post was successfully updated.'
     else
-      render 'edit'
+    render 'edit'
     end
   end
 
