@@ -9,9 +9,8 @@ Rails.application.routes.draw do
     resources :likes, only: [:create, :destroy]
   end
 
-  resources :friendships, only: [:create, :destroy]
-
-  post "/friendships/:friend_id", to: "friendships#create", as: "create_friendship"
+  resources :friendships, only: [:destroy]
+  post "/friendships/:friend_id", to: "friendships#create", as: "friendships"
   root to: 'posts#index'
   
 end

@@ -1,10 +1,7 @@
 class UsersController < ApplicationController
-
-
   def new
       @user = User.new
   end
-
  
   def like(post)
       post_interactions.create(post: post, reaction: 'like')
@@ -21,17 +18,15 @@ class UsersController < ApplicationController
         render :new
       end
   end
-  
   def follow
-      @user = User.find(params[:id])
-      @current_user.followees << @user
-      redirect_to user_path(@user)
+    @user = User.find(params[:id])
+    @current_user.followees << @user
+    redirect_to user_path(@user)
   end
-  
+
   def unfollow
-      @user = User.find(params[:id])
-      @current_user.followed_users.find_by(followee_id: @user.id).destroy
-      redirect_to user_path(@user)
+    @user = User.find(params[:id])
+    @current_user.followed_users.find_by(followee_id: @user.id).destroy
+    redirect_to user_path(@user)
   end
-    
 end
