@@ -75,5 +75,9 @@ class PostsController < ApplicationController
     @post.save
     redirect_to('/')
   end
+  def user_params
+    params.require(:user).permit(:name, :username, :phone, :country, :date_of_birth, :gender, :avatar, :remember_me)
+  end
+  
 
 end
